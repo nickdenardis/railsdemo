@@ -22,6 +22,10 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+  # Add these gems
+gem 'compass-rails'
+gem 'zurb-foundation'
+
 gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
