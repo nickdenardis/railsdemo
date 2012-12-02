@@ -27,13 +27,11 @@ gem 'compass-rails'
 gem 'zurb-foundation'
 
 group :test, :development do
-  gem 'turn'
   gem 'rspec-rails'
   gem 'capybara'
   gem 'guard-rspec'
   gem 'launchy'
-  gem 'minitest'
-  #gem 'ruby_gntp'
+  gem 'ruby_gntp'
 
   gem 'rb-fsevent', '~> 0.9.1'
 end

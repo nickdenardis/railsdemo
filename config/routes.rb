@@ -1,5 +1,9 @@
 Railsdemo::Application.routes.draw do
+  get "sites/index"
+
   get "welcome/index"
+
+  resources :sites
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
