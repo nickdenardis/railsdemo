@@ -26,6 +26,13 @@ end
 gem 'compass-rails'
 gem 'zurb-foundation'
 
+group :test, :development do
+  gem 'turn'
+  gem 'rspec-rails'
+  gem 'capybara'
+  gem 'guard-rspec'
+end
+
 gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
