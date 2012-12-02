@@ -1,2 +1,11 @@
-<h1>Sites#index</h1>
-<p>Find me in app/views/sites/index.html.erb</p>
+<% content_for :title, "Site List" %>
+<div class="row">
+	<div class="twelve columns">
+		<h1>Site List</h1>
+		<ul>
+			<% for site in @site_list %>
+				<li><%= site.url %></li>
+			<% end %>
+		</ul>
+	</div>
+</div>
