@@ -20,4 +20,15 @@ describe "Sites" do
   		page.should have_content 'http://msu.edu/'
   	end
   end
+
+  describe "PUT /sites" do
+  	it "should not allow a blank URL" do
+  		visit sites_path
+  		fill_in 'Url', :with => ''
+  		click_button 'Add Site'
+
+  		current_path.should == sites_path
+  		page.should have_content 'Cannot add a blank URL'
+  	end
+  end
 end
