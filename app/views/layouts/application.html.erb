@@ -25,6 +25,17 @@
 </head>
 <body>
 
+<div class="row">
+  <div class="twelve columns">
+    <h1>Incrementy <small>Keep track of all your small changes</small>
+
+    <ul class="nav-bar">
+      <li><%= link_to "Home", :controller => "welcome", :action => "index" %></li>
+      <li><%= link_to "Your Sites", :controller => "sites", :action => "index" %></li>
+    </ul>
+  </div>
+</div>
+
 <div class="twelve columns">
 	<% if flash[:error] %>
 	  <%= content_tag :div, :id => "flash_name", :class => "alert-box alert" do %>

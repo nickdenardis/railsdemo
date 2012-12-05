@@ -1,7 +1,7 @@
 <% content_for :title, "Site List" %>
 <div class="row">
 	<div class="eight columns">
-		<h1>Site List</h1>
+		<h2>Site List</h2>
 		<ul>
 			<% for site in @site_list %>
 				<li><%= site.url %></li>
@@ -10,7 +10,7 @@
 	</div>
 
 	<div class="four columns">
-		<h1>Add Site</h1>
+		<h2>Add Site</h2>
 		<%= form_for @site do |f| %>
 			<%= f.label :url %>
 			<%= f.text_field :url %>
