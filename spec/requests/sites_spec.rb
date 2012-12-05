@@ -28,7 +28,16 @@ describe "Sites" do
   		click_button 'Add Site'
 
   		current_path.should == sites_path
-  		page.should have_content 'Cannot add a blank URL'
+  		page.should have_content 'Error adding URL.'
+  	end
+
+  	it "should not allow a duplicate URL" do
+  		visit sites_path
+  		fill_in 'Url', :with => 'http://wayne.edu/'
+  		click_button 'Add Site'
+
+  		current_path.should == sites_path
+  		page.should have_content 'Error adding URL.'
   	end
   end
 end

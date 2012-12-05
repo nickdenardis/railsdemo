@@ -36,20 +36,22 @@
   </div>
 </div>
 
-<div class="twelve columns">
-	<% if flash[:error] %>
-	  <%= content_tag :div, :id => "flash_name", :class => "alert-box alert" do %>
-	    <%= flash[:error] %>
-	    <a class="close">&times;</a>
-	  <% end %>
-	<% end %>
+<div class="row">
+	<div class="twelve columns">
+		<% if flash[:error] %>
+		  <%= content_tag :div, :id => "flash_name", :class => "alert-box alert" do %>
+		    <%= flash[:error] %>
+		    <a class="close">&times;</a>
+		  <% end %>
+		<% end %>
 
-	<% if flash[:notice] %>
-	  <%= content_tag :div, :id => "flash_name", :class => "alert-box success" do %>
-	    <%= flash[:notice] %>
-	    <a class="close">&times;</a>
-	  <% end %>
-	<% end %>
+		<% if flash[:notice] %>
+		  <%= content_tag :div, :id => "flash_name", :class => "alert-box success" do %>
+		    <%= flash[:notice] %>
+		    <a class="close">&times;</a>
+		  <% end %>
+		<% end %>
+	</div>
 </div>
 
 <%= yield %>
