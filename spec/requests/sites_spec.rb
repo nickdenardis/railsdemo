@@ -19,6 +19,14 @@ describe "Sites" do
   		current_path.should == sites_path
   		page.should have_content 'http://msu.edu/'
   	end
+
+    it "should show site info" do
+      visit sites_path
+      click_link 'http://wayne.edu/'
+
+      current_path.should == site_path(@site)
+      page.should have_content 'http://wayne.edu/'
+    end
   end
 
   describe "PUT /sites" do
@@ -39,5 +47,11 @@ describe "Sites" do
   		current_path.should == sites_path
   		page.should have_content 'Error adding URL.'
   	end
+  end
+
+  describe "DELETE /sites" do
+    it "should delete a site" do
+      
+    end
   end
 end

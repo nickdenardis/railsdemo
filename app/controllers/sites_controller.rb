@@ -14,4 +14,8 @@ class SitesController < ApplicationController
   	#render :text => params.inspect
   	#redirect_to :back
   end
+
+  def show
+    @site = Site.find(params[:id])
+  end
 end

@@ -13,7 +13,7 @@
 	<!-- Set the viewport width to device width for mobile -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
-	<title><%= content_for?(:title) ? yield(:title) : "Untitled" %></title>
+	<title><%= content_for?(:title) ? yield(:title) : "Untitled" %> - Incremently</title>
   
 	<!-- Included CSS Files -->
 	<%= stylesheet_link_tag    "application" %>
@@ -31,7 +31,7 @@
 
     <ul class="nav-bar">
       <li><%= link_to "Home", :controller => "welcome", :action => "index" %></li>
-      <li><%= link_to "Your Sites", :controller => "sites", :action => "index" %></li>
+      <li><%= link_to "Sites", :controller => "sites", :action => "index" %></li>
     </ul>
   </div>
 </div>

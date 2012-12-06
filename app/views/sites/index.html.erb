@@ -2,11 +2,26 @@
 <div class="row">
 	<div class="eight columns">
 		<h2>Site List</h2>
-		<ul>
-			<% for site in @site_list %>
-				<li><%= site.url %></li>
-			<% end %>
-		</ul>
+		<table class="twelve">
+		  <thead>
+		    <tr>
+		      <th>URL</th>
+		      <th>Title</th>
+		      <th>Snapshots</th>
+		      <th>% Change</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		  	<% for site in @site_list %>
+					<tr>
+			      <td><%= link_to site.url, site_path(site) %></td>
+			      <td>N/A</td>
+			      <td>0</td>
+			      <td>0%</td>
+			    </tr>
+				<% end %>
+		  </tbody>
+		</table>
 	</div>
 
 	<div class="four columns">
