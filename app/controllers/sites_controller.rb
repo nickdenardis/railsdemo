@@ -18,4 +18,14 @@ class SitesController < ApplicationController
   def show
     @site = Site.find(params[:id])
   end
+
+  def destroy
+    @site = Site.find(params[:id])
+
+    if @site.destroy
+      redirect_to sites_path, :notice => 'Successfully deleted site.'
+    else
+      redirect_to site_path(@site), :error => 'Error deleting URL'
+    end
+  end
 end

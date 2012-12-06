@@ -51,7 +51,14 @@ describe "Sites" do
 
   describe "DELETE /sites" do
     it "should delete a site" do
-      
+      visit sites_path
+      click_link 'http://wayne.edu/'
+
+      current_path.should == site_path(@site)
+      click_link 'Delete'
+
+      current_path.should == sites_path
+      page.should have_no_content 'http://wayne.edu/'
     end
   end
 end
