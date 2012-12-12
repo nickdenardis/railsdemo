@@ -9,7 +9,7 @@
 
 		<ul>
 			<% for snapshot in @snapshot_list %>
-				<li><%= snapshot.created_at %></li>
+				<li><%= snapshot.title %> - <%= snapshot.created_at %></li>
 			<% end %>
 		</ul>
 	</div>
