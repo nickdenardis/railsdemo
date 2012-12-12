@@ -3,13 +3,13 @@
 	<div class="twelve columns">
 		<h2><%= @site.url %> <small><span class="alert label"><%= link_to 'Delete', @site, :method => 'delete', :confirm => 'Are you sure?' %></span></small></h2>
 
-		<%= form_for @snapshot, :url => new_site_snapshot_path do |f| %>
+		<%= form_for [@site, @snapshot] do |f| %>
 			<%= f.submit "New Snapshot" %>
 		<% end %>
 
 		<ul>
 			<% for snapshot in @snapshot_list %>
-				<tli><%= snapshot.created_at %></li>
+				<li><%= snapshot.created_at %></li>
 			<% end %>
 		</ul>
 	</div>

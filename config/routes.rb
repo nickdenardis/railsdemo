@@ -1,9 +1,9 @@
 Railsdemo::Application.routes.draw do
-  get "snapshots/list"
+  #get "snapshots/list"
 
-  get "sites/index"
+  #get "sites/index"
 
-  get "welcome/index"
+  #get "welcome/index"
 
   resources :sites do
     resources :snapshots
