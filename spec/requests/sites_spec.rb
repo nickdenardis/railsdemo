@@ -24,7 +24,7 @@ describe "Sites" do
       visit sites_path
       click_link 'http://wayne.edu/'
 
-      current_path.should == site_path(@site)
+      current_path.should == site_snapshots_path(@site)
       page.should have_content 'http://wayne.edu/'
     end
   end
@@ -54,7 +54,7 @@ describe "Sites" do
       visit sites_path
       click_link 'http://wayne.edu/'
 
-      current_path.should == site_path(@site)
+      current_path.should == site_snapshots_path(@site)
       click_link 'Delete'
 
       current_path.should == sites_path

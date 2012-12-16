@@ -1,9 +1,13 @@
 Railsdemo::Application.routes.draw do
-  get "sites/index"
+  #get "snapshots/list"
 
-  get "welcome/index"
+  #get "sites/index"
 
-  resources :sites
+  #get "welcome/index"
+
+  resources :sites do
+    resources :snapshots
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
