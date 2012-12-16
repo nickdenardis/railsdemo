@@ -45,7 +45,8 @@ class SnapshotsController < ApplicationController
 
     def take_screenshot
       Net::HTTP.start('immediatenet.com') do |http|
-        f = open(Rails.root.join('tmp', 'uploads', @site.domain + '.jpg'), 'wb+');
+        @snapshot.filename = @site.domain + '.' + Time.now.to_i.to_s + '.jpg'
+        f = open(Rails.root.join('tmp', 'uploads', @snapshot.filename), 'wb+');
         begin
           http.request_get('/t/fs?Size=1024x768&URL=' + @site.domain + '/' + @site.uri) do |resp|
             resp.read_body do |segment|
