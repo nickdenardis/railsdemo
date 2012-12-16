@@ -180,6 +180,7 @@ DEPENDENCIES
   guard-rspec
   jquery-rails
   launchy
+  nokogiri
   pg
   rails (= 3.2.8)
   rb-fsevent (~> 0.9.1)

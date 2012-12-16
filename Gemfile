@@ -26,6 +26,8 @@ end
 gem 'compass-rails'
 gem 'zurb-foundation'
 
+gem 'nokogiri'
+
 group :test, :development do
   gem 'rspec-rails'
   gem 'capybara'
