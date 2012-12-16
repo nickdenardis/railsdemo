@@ -3,7 +3,7 @@ Railsdemo::Application.routes.draw do
 
   #get "sites/index"
 
-  #get "welcome/index"
+  match 'pricing' => 'welcome#pricing'
 
   resources :sites do
     resources :snapshots
