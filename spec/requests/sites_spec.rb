@@ -27,6 +27,16 @@ describe "Sites" do
       current_path.should == site_snapshots_path(@site)
       page.should have_content 'http://wayne.edu/'
     end
+
+    it "should take a snapshot" do
+      visit sites_path
+      click_link 'http://wayne.edu/'
+
+      click_button 'New Snapshot'
+
+      current_path.should == site_snapshots_path(@site)
+      page.should have_content 'Successfully created snapshot.'
+    end
   end
 
   describe "PUT /sites" do
