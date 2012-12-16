@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'open-uri'
+require 'net/http'
 
 class SnapshotsController < ApplicationController
 	before_filter :load_site
@@ -26,6 +27,9 @@ class SnapshotsController < ApplicationController
         @snapshot.title = title.content
     end
 
+    # Take the screenshot
+    take_screenshot
+
     #render :json => @snapshot
     if @snapshot.save
       redirect_to site_snapshots_path, :flash => {:notice => "Successfully created snapshot."}
@@ -38,4 +42,19 @@ class SnapshotsController < ApplicationController
   	def load_site
   		@site =  Site.find(params[:site_id]) unless params[:site_id].nil?
 		end
+
+    def take_screenshot
+      Net::HTTP.start('immediatenet.com') do |http|
+        f = open(Rails.root.join('tmp', 'uploads', @site.domain + '.jpg'), 'wb+');
+        begin
+          http.request_get('/t/fs?Size=1024x768&URL=' + @site.domain + '/' + @site.uri) do |resp|
+            resp.read_body do |segment|
+              f.write(segment)
+            end
+          end
+        ensure
+          f.close()
+        end
+      end
+    end
 end
