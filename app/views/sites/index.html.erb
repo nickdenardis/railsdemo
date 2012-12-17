@@ -15,7 +15,7 @@
 		  	<% for site in @site_list %>
 					<tr>
 			      <td><%= link_to site.url, site_snapshots_path(site) %></td>
-			      <td><%= site.snapshots.last %></td>
+			      <td><%= site.snapshots.last.title %></td>
 			      <td><%= site.snapshots.size %></td>
 			      <td>0%</td>
 			    </tr>

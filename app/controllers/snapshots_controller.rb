@@ -1,6 +1,7 @@
 require 'nokogiri'
 require 'open-uri'
 require 'net/http'
+require 'fog'
 
 class SnapshotsController < ApplicationController
 	before_filter :load_site
@@ -57,5 +58,30 @@ class SnapshotsController < ApplicationController
           f.close()
         end
       end
+    end
+
+    def amazon_store
+      # create a connection
+      connection = Fog::Storage.new({
+        :provider                 => 'AWS',
+        :aws_access_key_id        => '',
+        :aws_secret_access_key    => ''
+      })
+
+      # First, a place to contain the glorious details
+      directory = connection.directories.create(
+        :key    => "fog-demo-#{Time.now.to_i}", # globally unique name
+        :public => true
+      )
+
+      # list directories
+      p connection.directories
+
+      # upload that resume
+      file = directory.files.create(
+        :key    => 'resume.html',
+        :body   => File.open("/path/to/my/resume.html"),
+        :public => true
+      )
     end
 end

@@ -1,5 +1,5 @@
 class Site < ActiveRecord::Base
-  attr_accessible :url
+  attr_accessible :url, :snapshots_attributes
 
   validates :url, :format => URI::regexp(%w(http https))
 
