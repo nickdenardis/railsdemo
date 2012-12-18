@@ -31,6 +31,9 @@ class SnapshotsController < ApplicationController
     # Take the screenshot
     take_screenshot
 
+    # Store the screenshot on Amazon
+    @public_url = amazon_store
+
     #render :json => @snapshot
     if @snapshot.save
       redirect_to site_snapshots_path, :flash => {:notice => "Successfully created snapshot."}
@@ -63,25 +66,24 @@ class SnapshotsController < ApplicationController
     def amazon_store
       # create a connection
       connection = Fog::Storage.new({
-        :provider                 => 'AWS',
-        :aws_access_key_id        => '',
-        :aws_secret_access_key    => ''
+        :provider                 => ENV['PROVIDER'],
+        :aws_access_key_id        => ENV['ACCESS_KEY'],
+        :aws_secret_access_key    => ENV['ACCESS_SECRET']
       })
 
-      # First, a place to contain the glorious details
-      directory = connection.directories.create(
-        :key    => "fog-demo-#{Time.now.to_i}", # globally unique name
-        :public => true
-      )
+      # Get the directory to store the files
+      directory = connection.directories.get(ENV['BUCKET_NAME'])
 
       # list directories
       p connection.directories
 
       # upload that resume
       file = directory.files.create(
-        :key    => 'resume.html',
-        :body   => File.open("/path/to/my/resume.html"),
+        :key    => "#{@site.domain}/#{@snapshot.filename}",
+        :body   => File.open(Rails.root.join('tmp', 'uploads', @snapshot.filename)),
         :public => true
       )
+
+      file.public_url
     end
 end
