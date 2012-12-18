@@ -32,7 +32,7 @@ class SnapshotsController < ApplicationController
     take_screenshot
 
     # Store the screenshot on Amazon
-    @public_url = amazon_store
+    @snapshot.public_url = amazon_store
 
     #render :json => @snapshot
     if @snapshot.save

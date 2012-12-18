@@ -7,13 +7,16 @@
 			<%= f.submit "New Snapshot" %>
 		<% end %>
 
-		<%= @public_url %>
-
-		<ul>
+		<div class="row">
 			<% for snapshot in @snapshot_list %>
-				<li><%= image_tag "/uploads/#{snapshot.filename}", {:width => 200} %><br />
-					<%= snapshot.created_at %></li>
+				<div class="three mobile-two columns">
+		     <%= image_tag "#{snapshot.public_url}", {:width => 300} %>
+
+		      <div class="panel">
+		        <h5><%= time_ago_in_words(snapshot.created_at) %> ago</h5>
+		      </div>
+		    </div>
 			<% end %>
-		</ul>
+		</div>
 	</div>
 </div>
