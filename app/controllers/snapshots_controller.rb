@@ -1,5 +1,7 @@
 require 'nokogiri'
 require 'open-uri'
+require 'net/http'
+require 'fog'
 
 class SnapshotsController < ApplicationController
 	before_filter :load_site
@@ -26,6 +28,17 @@ class SnapshotsController < ApplicationController
         @snapshot.title = title.content
     end
 
+    # Take the screenshot
+    take_screenshot
+
+    # Store the screenshot on Amazon
+    @snapshot.public_url = amazon_store
+
+    # Remove the local file now (maybe leave 6 on the local server?)
+    if @snapshot.public_url
+      remove_local_screenshot
+    end
+
     #render :json => @snapshot
     if @snapshot.save
       redirect_to site_snapshots_path, :flash => {:notice => "Successfully created snapshot."}
@@ -38,4 +51,50 @@ class SnapshotsController < ApplicationController
   	def load_site
   		@site =  Site.find(params[:site_id]) unless params[:site_id].nil?
 		end
+
+    def take_screenshot
+      Net::HTTP.start('immediatenet.com') do |http|
+        @snapshot.filename = @site.domain + '.' + Time.now.to_i.to_s + '.jpg'
+        f = open(Rails.root.join('tmp', 'uploads', @snapshot.filename), 'wb+');
+        begin
+          http.request_get('/t/fs?Size=1024x768&URL=' + @site.domain + '/' + @site.uri) do |resp|
+            resp.read_body do |segment|
+              f.write(segment)
+            end
+          end
+        ensure
+          f.close()
+        end
+      end
+    end
+
+    def remove_local_screenshot
+      if File.exists?(Rails.root.join('tmp', 'uploads', @snapshot.filename))
+        File.delete(Rails.root.join('tmp', 'uploads', @snapshot.filename))
+      end
+    end
+
+    def amazon_store
+      # create a connection
+      connection = Fog::Storage.new({
+        :provider                 => ENV['PROVIDER'],
+        :aws_access_key_id        => ENV['ACCESS_KEY'],
+        :aws_secret_access_key    => ENV['ACCESS_SECRET']
+      })
+
+      # Get the directory to store the files
+      directory = connection.directories.get(ENV['BUCKET_NAME'])
+
+      # list directories
+      p connection.directories
+
+      # upload that resume
+      file = directory.files.create(
+        :key    => "#{@site.domain}/#{@snapshot.filename}",
+        :body   => File.open(Rails.root.join('tmp', 'uploads', @snapshot.filename)),
+        :public => true
+      )
+
+      file.public_url
+    end
 end

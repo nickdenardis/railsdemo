@@ -26,7 +26,11 @@ end
 gem 'compass-rails'
 gem 'zurb-foundation'
 
+  # For HTML parsing
 gem 'nokogiri'
+
+  # For uploading to S3
+gem 'fog'
 
 group :test, :development do
   gem 'rspec-rails'
