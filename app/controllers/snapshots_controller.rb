@@ -53,6 +53,10 @@ class SnapshotsController < ApplicationController
 		end
 
     def take_screenshot
+      # Make sure the directory exisits
+      !Dir.exists?(Rails.root.join('tmp', 'uploads'))
+        Dir.mkdir(Rails.root.join('tmp', 'uploads'), 0775)
+
       Net::HTTP.start('immediatenet.com') do |http|
         @snapshot.filename = @site.domain + '.' + Time.now.to_i.to_s + '.jpg'
         f = open(Rails.root.join('tmp', 'uploads', @snapshot.filename), 'wb+');
