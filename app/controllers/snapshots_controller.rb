@@ -34,6 +34,11 @@ class SnapshotsController < ApplicationController
     # Store the screenshot on Amazon
     @snapshot.public_url = amazon_store
 
+    # Remove the local file now (maybe leave 6 on the local server?)
+    if @snapshot.public_url
+      remove_local_screenshot
+    end
+
     #render :json => @snapshot
     if @snapshot.save
       redirect_to site_snapshots_path, :flash => {:notice => "Successfully created snapshot."}
@@ -60,6 +65,12 @@ class SnapshotsController < ApplicationController
         ensure
           f.close()
         end
+      end
+    end
+
+    def remove_local_screenshot
+      if File.exists?(Rails.root.join('tmp', 'uploads', @snapshot.filename))
+        File.delete(Rails.root.join('tmp', 'uploads', @snapshot.filename))
       end
     end
 

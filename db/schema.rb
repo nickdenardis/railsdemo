@@ -15,9 +15,9 @@ ActiveRecord::Schema.define(:version => 20121218021720) do
 
   create_table "sites", :force => true do |t|
     t.string   "url"
-    t.datetime "created_at",                   :null => false
-    t.datetime "updated_at",                   :null => false
-    t.boolean  "is_ssl",     :default => true
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
+    t.boolean  "is_ssl",     :default => false
     t.string   "domain"
     t.string   "uri"
   end
