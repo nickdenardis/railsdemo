@@ -23,6 +23,13 @@ class SnapshotsController < ApplicationController
     # Set the full HTML
     @snapshot.raw_html = doc.content
 
+    # Make sure the current HTML isn't the same as the last
+    @last_snapshot = Snapshot.last()
+
+    if @last_snapshot.raw_html.eql?(@snapshot.raw_html)
+      redirect_to :back, :flash => {:error => 'No change, snapshot same as the last.'} and return
+    end
+
     # Set the title of the page (should only be one, but currently getting the last)
     doc.xpath('//title').each do |title|
         @snapshot.title = title.content
@@ -53,9 +60,8 @@ class SnapshotsController < ApplicationController
 		end
 
     def take_screenshot
-      # Make sure the directory exisits
-      !Dir.exists?(Rails.root.join('tmp', 'uploads'))
-        Dir.mkdir(Rails.root.join('tmp', 'uploads'), 0775)
+      # Make the directory unless it exisits
+      Dir.mkdir(Rails.root.join('tmp', 'uploads'), 0775) unless File.directory?(Rails.root.join('tmp', 'uploads'))
 
       Net::HTTP.start('immediatenet.com') do |http|
         @snapshot.filename = @site.domain + '.' + Time.now.to_i.to_s + '.jpg'
