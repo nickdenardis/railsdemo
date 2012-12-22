@@ -1,4 +1,6 @@
 Railsdemo::Application.routes.draw do
+  get "sessions/new"
+
   get "users/new"
 
   #get "snapshots/list"
@@ -12,8 +14,11 @@ Railsdemo::Application.routes.draw do
   end
 
   get "signup" => "users#new", :as => "signup"
+  get "logout" => "sessions#destroy", :as => "logout"
+  get "login" => "sessions#new", :as => "login"
 
   resources :users
+  resources :sessions
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

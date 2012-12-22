@@ -32,10 +32,14 @@
 	    <ul class="nav">
 	      <li><%= link_to "Features", :controller => "welcome", :action => "pricing" %></li>
 	      <li><%= link_to "Blog", :controller => "welcome", :action => "pricing" %></li>
-	      <li><%= link_to "Testimonials", :controller => "welcome", :action => "pricing" %></li>
 	      <li><%= link_to "Sites", :controller => "sites", :action => "index" %></li>
 	      <li><%= link_to "Pricing", :controller => "welcome", :action => "pricing" %></li>
-	      <li class="signup"><%= link_to "Signup", :controller => "welcome", :action => "pricing" %></li>
+	      <% if current_user %>
+					<li class="action"><%= link_to "Log out", logout_path %></li>
+	      <% else %>
+	      	<li><%= link_to "Log In", login_path %></li>
+		      <li class="action"><%= link_to "Signup", signup_path %></li>
+		    <% end %>
 	    </ul>
 	  </div>
   </header>
