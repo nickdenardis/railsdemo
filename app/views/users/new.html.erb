@@ -16,19 +16,39 @@
 		      </ul>
 		    </div>
 		  <% end %>
-		  <p>
-		    <%= f.label :email %><br />
-		    <%= f.text_field :email %>
-		  </p>
-		  <p>
-		    <%= f.label :password %><br />
-		    <%= f.password_field :password %>
-		  </p>
-		  <p>
-		    <%= f.label :password_confirmation %><br />
-		    <%= f.password_field :password_confirmation %>
-		  </p>
-		  <p><%= f.submit "Sign Up", :class => "button" %></p>
+
+		  <div class="row">
+		    <div class="two mobile-one columns">
+		      <%= label_tag :email, "Email Address:", :class => 'right inline' %>
+		    </div>
+		    <div class="ten mobile-three columns">
+		      <%= text_field_tag :email, params[:email], :class => 'four' %>
+		    </div>
+		  </div>
+
+ 			<div class="row">
+		    <div class="two mobile-one columns">
+		      <%= label_tag :password, "Password:", :class => 'right inline' %>
+		    </div>
+		    <div class="ten mobile-three columns">
+		    <%= password_field_tag :password, '', :class => 'four' %>
+		    </div>
+		  </div>
+
+		  <div class="row">
+		    <div class="two mobile-one columns">
+		      <%= label_tag :password_confirmation, "Password Again:", :class => 'right inline' %>
+		    </div>
+		    <div class="ten mobile-three columns">
+		    <%= password_field_tag :password_confirmation, '', :class => 'four' %>
+		    </div>
+		  </div>
+
+		  <div class="row">
+		    <div class="ten mobile-four columns push-two">
+		    	<%= submit_tag "Sign Up", :class => 'button' %>
+		    </div>
+		  </div>
 		<% end %>
 	</div>
 </div>
