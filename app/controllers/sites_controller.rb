@@ -5,12 +5,15 @@ class SitesController < ApplicationController
 
   def index
   	@site = Site.new
-  	@site_list = Site.all
+  	@site_list = @current_user.sites.all
   end
 
   def create
   	# Set the values from the form
     @site = Site.new params[:site]
+
+    # Associate the site with the logged in user
+    @site.user_id = @current_user.id
 
     # Parse the URL
     uri = URI.parse(@site.url)
@@ -27,16 +30,26 @@ class SitesController < ApplicationController
   	else
   		redirect_to :back, :flash => {:error => 'Error adding URL.'}
   	end
-    
+
   	#render :text => params.inspect
   end
 
   def show
     @site = Site.find(params[:id])
+
+    # Ensure the site is owned by this user
+    if @site.user_id != @current_user.id
+      redirect_to :back, :flash => {:error => 'You are not the site owner'}
+    end
   end
 
   def destroy
     @site = Site.find(params[:id])
+
+    # Ensure the site is owned by this user
+    if @site.user_id != @current_user.id
+      redirect_to :back, :flash => {:error => 'You are not the site owner'}
+    end
 
     if @site.destroy
       redirect_to sites_path, :notice => 'Successfully deleted site.'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121222205012) do
+ActiveRecord::Schema.define(:version => 20121222231614) do
 
   create_table "sites", :force => true do |t|
     t.string   "url"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(:version => 20121222205012) do
     t.boolean  "is_ssl",     :default => false
     t.string   "domain"
     t.string   "uri"
+    t.integer  "user_id"
   end
 
   create_table "snapshots", :force => true do |t|

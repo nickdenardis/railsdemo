@@ -6,4 +6,6 @@ class Site < ActiveRecord::Base
   validates_uniqueness_of :url
 
   has_many :snapshots
+
+  belongs_to :user
 end
