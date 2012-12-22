@@ -31,10 +31,10 @@
     <div class="eight columns">
 	    <ul class="nav">
 	      <li><%= link_to "Features", :controller => "welcome", :action => "pricing" %></li>
-	      <li><%= link_to "Blog", :controller => "welcome", :action => "pricing" %></li>
-	      <li><%= link_to "Sites", :controller => "sites", :action => "index" %></li>
+	      <li><a href="http://blog.incremently.com/">Blog</a></li>
 	      <li><%= link_to "Pricing", :controller => "welcome", :action => "pricing" %></li>
 	      <% if current_user %>
+	      	<li><%= link_to "Sites", :controller => "sites", :action => "index" %></li>
 					<li class="action"><%= link_to "Log out", logout_path %></li>
 	      <% else %>
 	      	<li><%= link_to "Log In", login_path %></li>
