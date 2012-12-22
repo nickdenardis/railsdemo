@@ -32,7 +32,9 @@ gem 'nokogiri'
   # For uploading to S3
 gem 'fog'
 
-gem "jquery-rails"
+gem 'jquery-rails'
+
+gem 'bcrypt-ruby'
 
 group :test, :development do
   gem 'rspec-rails'

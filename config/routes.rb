@@ -1,4 +1,6 @@
 Railsdemo::Application.routes.draw do
+  get "users/new"
+
   #get "snapshots/list"
 
   #get "sites/index"
@@ -8,6 +10,10 @@ Railsdemo::Application.routes.draw do
   resources :sites do
     resources :snapshots
   end
+
+  get "signup" => "users#new", :as => "signup"
+
+  resources :users
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

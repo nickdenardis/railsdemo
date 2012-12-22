@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121218021720) do
+ActiveRecord::Schema.define(:version => 20121222205012) do
 
   create_table "sites", :force => true do |t|
     t.string   "url"
@@ -30,6 +30,14 @@ ActiveRecord::Schema.define(:version => 20121218021720) do
     t.datetime "updated_at", :null => false
     t.string   "filename"
     t.string   "public_url"
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "email"
+    t.string   "password_hash"
+    t.string   "password_salt"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
 end
