@@ -2,6 +2,14 @@ require 'uri/http'
 
 class SitesController < ApplicationController
   def index
+    # Require the user to be logged in
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+
+    if !@current_user
+      redirect_to root_url, :flash => {:error => 'You must be logged in to see the site list.'}
+    end
+
+
   	@site = Site.new
   	@site_list = Site.all
   end
