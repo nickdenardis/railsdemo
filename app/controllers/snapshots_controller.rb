@@ -24,10 +24,12 @@ class SnapshotsController < ApplicationController
     @snapshot.raw_html = doc.content
 
     # Make sure the current HTML isn't the same as the last
-    @last_snapshot = Snapshot.last()
+    if Snapshot.count() > 1
+      @last_snapshot = Snapshot.last()
 
-    if @last_snapshot.raw_html.eql?(@snapshot.raw_html)
-      redirect_to :back, :flash => {:error => 'No change, snapshot same as the last.'} and return
+      if @last_snapshot.raw_html.eql?(@snapshot.raw_html)
+        redirect_to :back, :flash => {:error => 'No change, snapshot same as the last.'} and return
+      end
     end
 
     # Set the title of the page (should only be one, but currently getting the last)
@@ -36,16 +38,18 @@ class SnapshotsController < ApplicationController
     end
 
     # Take the screenshot
-    take_screenshot
+    if !Rails.env.test?
+      take_screenshot
 
-    # Store the screenshot on Amazon
-    @snapshot.public_url = amazon_store
+      # Store the screenshot on Amazon
+      @snapshot.public_url = amazon_store
 
-    # Remove the local file now (maybe leave 6 on the local server?)
-    if @snapshot.public_url
-      remove_local_screenshot
+      # Remove the local file now (maybe leave 6 on the local server?)
+      if @snapshot.public_url
+        remove_local_screenshot
+      end
     end
-
+    
     #render :json => @snapshot
     if @snapshot.save
       redirect_to site_snapshots_path, :flash => {:notice => "Successfully created snapshot."}
@@ -85,6 +89,11 @@ class SnapshotsController < ApplicationController
     end
 
     def amazon_store
+      # If testing or development
+      if Rails.env.test?
+        Fog.mock!
+      end
+
       # create a connection
       connection = Fog::Storage.new({
         :provider                 => ENV['PROVIDER'],
