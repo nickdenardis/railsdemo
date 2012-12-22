@@ -60,6 +60,15 @@ class SnapshotsController < ApplicationController
 
   private
   	def load_site
+      #Need to make this more global
+      
+      # Require the user to be logged in
+      @current_user ||= User.find(session[:user_id]) if session[:user_id]
+
+      if !@current_user
+        redirect_to root_url, :flash => {:error => 'You must be logged in to see the site list.'}
+      end
+
   		@site =  Site.find(params[:site_id]) unless params[:site_id].nil?
 		end
 

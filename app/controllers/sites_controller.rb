@@ -27,10 +27,8 @@ class SitesController < ApplicationController
   	else
   		redirect_to :back, :flash => {:error => 'Error adding URL.'}
   	end
-
-
+    
   	#render :text => params.inspect
-  	#redirect_to :back
   end
 
   def show
@@ -50,6 +48,8 @@ class SitesController < ApplicationController
   private
 
   def auth_user
+    #Need to make this more global
+
     # Require the user to be logged in
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
 

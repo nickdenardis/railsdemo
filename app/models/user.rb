@@ -26,4 +26,13 @@ class User < ActiveRecord::Base
       self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
     end
   end
+
+  def self.authenticated
+    # Require the user to be logged in
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+
+    if !@current_user
+      redirect_to root_url, :flash => {:error => 'You must be logged in to see the site list.'}
+    end
+  end
 end
