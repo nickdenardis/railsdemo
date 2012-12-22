@@ -1,15 +1,9 @@
 require 'uri/http'
 
 class SitesController < ApplicationController
+  before_filter :auth_user
+
   def index
-    # Require the user to be logged in
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
-
-    if !@current_user
-      redirect_to root_url, :flash => {:error => 'You must be logged in to see the site list.'}
-    end
-
-
   	@site = Site.new
   	@site_list = Site.all
   end
@@ -50,6 +44,17 @@ class SitesController < ApplicationController
       redirect_to sites_path, :notice => 'Successfully deleted site.'
     else
       redirect_to site_path(@site), :error => 'Error deleting URL'
+    end
+  end
+
+  private
+
+  def auth_user
+    # Require the user to be logged in
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+
+    if !@current_user
+      redirect_to root_url, :flash => {:error => 'You must be logged in to see the site list.'}
     end
   end
 end
