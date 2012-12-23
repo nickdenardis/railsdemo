@@ -36,6 +36,8 @@ gem 'jquery-rails'
 
 gem 'bcrypt-ruby'
 
+gem 'newrelic_rpm'
+
 group :test, :development do
   gem 'rspec-rails'
   gem 'capybara'
