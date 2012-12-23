@@ -21,13 +21,6 @@ class User < ActiveRecord::Base
       nil
     end
   end
-  
-  def encrypt_password
-    if password.present?
-      self.password_salt = BCrypt::Engine.generate_salt
-      self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
-    end
-  end
 
   def self.authenticated
     # Require the user to be logged in
@@ -35,6 +28,13 @@ class User < ActiveRecord::Base
 
     if !@current_user
       redirect_to root_url, :flash => {:error => 'You must be logged in to see the site list.'}
+    end
+  end
+  
+  def encrypt_password
+    if password.present?
+      self.password_salt = BCrypt::Engine.generate_salt
+      self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
     end
   end
 end

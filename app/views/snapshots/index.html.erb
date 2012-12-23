@@ -10,7 +10,9 @@
 		<div class="row">
 			<% for snapshot in @snapshot_list %>
 				<div class="three mobile-two columns">
-		     <%= image_tag "#{snapshot.public_url}", {:width => 300} %>
+					<%= link_to snapshot.public_url do %>
+		     		<%= image_tag "#{snapshot.public_url}", {:width => 300} %>
+		     	<% end %> 
 
 		      <div class="panel">
 		        <h5><%= time_ago_in_words(snapshot.created_at) %> ago</h5>

@@ -5,9 +5,11 @@
 
 		<h1>Sign Up</h1>
 
+
 		<%= form_for @user do |f| %>
+
 		  <% if @user.errors.any? %>
-		    <div class="error_messages">
+				<div class="error_messages">
 		      <h2>Form is invalid</h2>
 		      <ul>
 		        <% for message in @user.errors.full_messages %>
@@ -17,30 +19,31 @@
 		    </div>
 		  <% end %>
 
-		  <div class="row">
+
+			<div class="row">
 		    <div class="two mobile-one columns">
-		      <%= label_tag :email, "Email Address:", :class => 'right inline' %>
+		      <%= f.label :email, "Email Address:", :class => 'right inline' %>
 		    </div>
 		    <div class="ten mobile-three columns">
-		      <%= text_field_tag :email, params[:email], :class => 'four' %>
+		      <%= f.text_field :email, :class => 'four' %>
 		    </div>
 		  </div>
 
  			<div class="row">
 		    <div class="two mobile-one columns">
-		      <%= label_tag :password, "Password:", :class => 'right inline' %>
+		      <%= f.label :password, "Password:", :class => 'right inline' %>
 		    </div>
 		    <div class="ten mobile-three columns">
-		    <%= password_field_tag :password, '', :class => 'four' %>
+		    <%= f.password_field :password, :class => 'four' %>
 		    </div>
 		  </div>
 
 		  <div class="row">
 		    <div class="two mobile-one columns">
-		      <%= label_tag :password_confirmation, "Password Again:", :class => 'right inline' %>
+		      <%= f.label :password_confirmation, "Password Again:", :class => 'right inline' %>
 		    </div>
 		    <div class="ten mobile-three columns">
-		    <%= password_field_tag :password_confirmation, '', :class => 'four' %>
+		    	<%= f.password_field :password_confirmation, :class => 'four' %>
 		    </div>
 		  </div>
 
