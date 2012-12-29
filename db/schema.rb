@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121222231614) do
+ActiveRecord::Schema.define(:version => 20121229023556) do
+
+  create_table "assets", :force => true do |t|
+    t.integer  "snapshot_id"
+    t.string   "src_type"
+    t.integer  "filesize"
+    t.string   "full_url"
+    t.string   "local_path"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "sites", :force => true do |t|
     t.string   "url"
