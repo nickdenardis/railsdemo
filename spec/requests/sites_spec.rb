@@ -6,13 +6,20 @@ describe "Sites" do
     @user = User.create :email => 'user@domain.com', :password => 'pass', :password_confirmation => 'pass'
 
     # Log that user in
-    post "/sessions", {:email => "user@domain.com", :password => "pass"}
+    #post "/sessions", {:email => "user@domain.com", :password => "pass"}
+    #post sessions_path, {:email => "user@domain.com", :password => "pass"}
+
     #@session_user = User.authenticate('user@domain.com', 'pass')
-    #session[:user_id] = @session_user.id
+    #session[:user_id] = @user.id
+
+    visit login_path
+    fill_in 'email', :with => 'user@domain.com'
+    fill_in 'password', :with => 'pass'
+    click_button 'Log in'
 
     #save_and_open_page
 
-  	@site = Site.create :url => 'http://wayne.edu/' 
+  	@site = Site.create :url => 'http://wayne.edu/'
   end
 
   describe "GET /sites" do
