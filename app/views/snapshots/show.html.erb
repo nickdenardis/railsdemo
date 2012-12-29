@@ -1,0 +1,32 @@
+<% content_for :title, 'Snaphot Assets' %>
+<div class="row">
+	<div class="twelve columns">
+		<ul class="breadcrumbs">
+		  <li><%= link_to 'Home', root_url %></li>
+		  <li><%= link_to 'Sites List', sites_path %></li>
+		  <li><%= link_to 'Snapshots', site_snapshots_path(@site) %></li>
+		  <li class="current"><%= link_to 'Assets', site_snapshot_path(@site, @snapshot) %></li>
+		</ul>
+
+		<h3><%= @site.url %> <small>(<%= @snapshot_assets.count %> requests, <%= number_to_human_size @total_filesize %>)</small></h3>
+
+		<table class="twelve">
+			<thead>
+			<tr>
+				<th>Size</th>
+				<th>Type</th>
+				<th>URL</th>
+			</tr>
+			</thead>
+			<tbody>
+				<% for asset in @snapshot_assets %>
+				<tr>
+					<td><%= number_to_human_size asset.filesize %></td>
+					<td><%= asset.src_type %></td>
+					<td><%= asset.full_url %> (<%= asset.local_path %>)</td>
+				</tr>
+				<% end %>
+			</tbody>
+		</table>
+	</div>
+</div>

@@ -10,7 +10,9 @@ Railsdemo::Application.routes.draw do
   match 'pricing' => 'welcome#pricing'
 
   resources :sites do
-    resources :snapshots
+    resources :snapshots do
+      resources :assets
+    end
   end
 
   get "signup" => "users#new", :as => "signup"

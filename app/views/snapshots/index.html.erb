@@ -15,7 +15,7 @@
 		<div class="row">
 			<% for snapshot in @snapshot_list %>
 				<div class="three mobile-two columns">
-					<%= link_to snapshot.public_url do %>
+					<%= link_to site_snapshot_path(@site, snapshot) do %>
 
 		     		<%= image_tag "#{snapshot.public_url}", {:width => 300} %>
 		     	<% end %> 
