@@ -1,5 +1,13 @@
 <% content_for :title, "Site List" %>
 <div class="row">
+	<div class="twelve columns">
+		<ul class="breadcrumbs">
+		  <li><%= link_to 'Home', root_url %></li>
+		  <li class="current"><%= link_to 'Sites List', sites_path %></li>
+		</ul>
+	</div>
+</div>
+<div class="row">
 	<div class="eight columns">
 		<h3>Site List</h3>
 		<table class="twelve">

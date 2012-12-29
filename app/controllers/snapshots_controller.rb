@@ -42,7 +42,7 @@ class SnapshotsController < ApplicationController
       take_screenshot
 
       # Store the screenshot on Amazon
-      @snapshot.public_url = amazon_store
+      #@snapshot.public_url = amazon_store
 
       # Remove the local file now (maybe leave 6 on the local server?)
       if @snapshot.public_url
@@ -99,9 +99,7 @@ class SnapshotsController < ApplicationController
 
     def amazon_store
       # If testing or development
-      if Rails.env.test?
-        Fog.mock!
-      end
+      Fog.mock! unless Rails.env.production?
 
       # create a connection
       connection = Fog::Storage.new({
