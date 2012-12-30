@@ -232,7 +232,7 @@ class SnapshotsController < ApplicationController
 
       # If it is relative to the scheme
       if file_uri[0..1] == '//'
-        full_uri = uri.scheme + file_uri
+        full_uri = uri.scheme + ':' + file_uri
       end
 
       # Ensure the full URL matches a fully qualified URL format
