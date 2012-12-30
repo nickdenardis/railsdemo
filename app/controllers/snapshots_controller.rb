@@ -172,6 +172,14 @@ class SnapshotsController < ApplicationController
         end
       end
 
+      # Grab all the css files alternate
+      @doc.xpath('//link[@rel="stylesheet"]').each do |css|
+        if css['href'] != nil
+          @new_css_asset = Asset.create :snapshot_id => @snapshot.id, :src_type => 'css', :full_url => create_full_url(@site.url, css['href'])
+          css['href'] = @new_css_asset.local_path[1..-1]
+        end
+      end
+
       # Grab all the js files
       @doc.xpath('//script[@type="text/javascript"]').each do |js|
         if js['src'] != nil
