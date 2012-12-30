@@ -25,36 +25,40 @@ class SitesController < ApplicationController
     @site.uri << '?' + uri.query.to_s unless uri.query == nil
     @site.uri << '#' + uri.fragment.to_s unless uri.fragment == nil
 
+    # Save the site
   	if @site.save
-  		redirect_to sites_path, :flash => {:notice => "Successfully added #{@site.url}."}
+  		redirect_to sites_path, :flash => { :notice => "Successfully added #{@site.url}." }
   	else
-  		redirect_to :back, :flash => {:error => 'Error adding URL.'}
+  		redirect_to :back, :flash => { :error => 'Error adding URL.' }
   	end
 
   	#render :text => params.inspect
   end
 
   def show
+    # Find the site in the DB
     @site = Site.find(params[:id])
 
     # Ensure the site is owned by this user
     if @site.user_id != @current_user.id
-      redirect_to :back, :flash => {:error => 'You are not the site owner'}
+      redirect_to :back, :flash => { :error => 'You are not the site owner' }
     end
   end
 
   def destroy
+    # Find the site in the DB
     @site = Site.find(params[:id])
 
     # Ensure the site is owned by this user
     if @site.user_id != @current_user.id
-      redirect_to :back, :flash => {:error => 'You are not the site owner'}
+      redirect_to :back, :flash => { :error => 'You are not the site owner' }
     end
 
+    # Remove the site from the DB
     if @site.destroy
-      redirect_to sites_path, :notice => 'Successfully deleted site.'
+      redirect_to sites_path, :flash => { :notice => 'Successfully deleted site.' }
     else
-      redirect_to site_path(@site), :error => 'Error deleting URL'
+      redirect_to site_path(@site), :flash => { :error => 'Error deleting URL' }
     end
   end
 
@@ -67,7 +71,7 @@ class SitesController < ApplicationController
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
 
     if !@current_user
-      redirect_to root_url, :flash => {:error => 'You must be logged in to see the site list.'}
+      redirect_to root_url, :flash => {:error => 'You must be logged in to see the site list.' }
     end
   end
 end

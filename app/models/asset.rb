@@ -18,8 +18,15 @@ class Asset < ActiveRecord::Base
   end
 
   def request_get(url, local_path, count = 3)
+    return nil unless url != nil
+
     # Parse the URL
     parsed_uri = URI.parse(url)
+
+    # Make sure the URL is http/https
+    if !parsed_uri.kind_of?(URI::HTTP)
+      return nil
+    end
 
     # Start the HTTP request
     http = Net::HTTP.new(parsed_uri.host, parsed_uri.port)

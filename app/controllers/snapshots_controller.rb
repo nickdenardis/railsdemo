@@ -2,6 +2,7 @@ require 'nokogiri'
 require 'open-uri'
 require 'net/http'
 require 'fog'
+require 'uri'
 
 class SnapshotsController < ApplicationController
 	before_filter :load_site
@@ -74,10 +75,13 @@ class SnapshotsController < ApplicationController
   end
 
   def show
+    # Find the snapshot in the DB
     @snapshot = Snapshot.find(params[:id])
 
+    # Get all the assets from the DB
     @snapshot_assets = @snapshot.assets.find(:all)
 
+    # Calculate the total size of all assets
     @total_filesize = 0
     @snapshot_assets.each do |file| 
       @total_filesize += file.filesize.to_i
@@ -85,16 +89,16 @@ class SnapshotsController < ApplicationController
   end
 
   private
-  	def load_site
-      #Need to make this more global
-      
+  	def load_site # Need to make this more global
       # Require the user to be logged in
       @current_user ||= User.find(session[:user_id]) if session[:user_id]
 
+      # Make sure the user is logged in
       if !@current_user
         redirect_to root_url, :flash => {:error => 'You must be logged in to see the site list.'}
       end
 
+      # Get the site from the DB
   		@site = Site.find(params[:site_id]) unless params[:site_id].nil?
 		end
 
@@ -102,6 +106,7 @@ class SnapshotsController < ApplicationController
       # Make the directory unless it exisits
       Dir.mkdir(Rails.root.join('tmp', 'uploads'), 0775) unless File.directory?(Rails.root.join('tmp', 'uploads'))
 
+      # Start the connection and write the local file
       Net::HTTP.start('immediatenet.com') do |http|
         @snapshot.filename = @site.domain + '.' + Time.now.to_i.to_s + '.jpg'
         f = open(Rails.root.join('tmp', 'uploads', @snapshot.filename), 'wb+');
@@ -147,6 +152,7 @@ class SnapshotsController < ApplicationController
         :public => true
       )
 
+      # Return the full public URL
       file.public_url
     end
 
@@ -159,8 +165,9 @@ class SnapshotsController < ApplicationController
       @doc.css('img').each do |image|
         if image['src'] != nil
           @new_image_asset = Asset.create :snapshot_id => @snapshot.id, :src_type => 'img', :full_url => create_full_url(@site.url, image['src'])
-          logger.info @new_image_asset.inspect
-          image['src'] = @new_image_asset.local_path[1..-1]
+          if @new_image_asset.local_path != nil
+            image['src'] = @new_image_asset.local_path[1..-1]
+          end
         end
       end
 
@@ -168,7 +175,9 @@ class SnapshotsController < ApplicationController
       @doc.xpath('//link[@type="text/css"]').each do |css|
         if css['href'] != nil
           @new_css_asset = Asset.create :snapshot_id => @snapshot.id, :src_type => 'css', :full_url => create_full_url(@site.url, css['href'])
-          css['href'] = @new_css_asset.local_path[1..-1]
+          if @new_css_asset.local_path != nil
+            css['href'] = @new_css_asset.local_path[1..-1]
+          end
         end
       end
 
@@ -176,7 +185,9 @@ class SnapshotsController < ApplicationController
       @doc.xpath('//link[@rel="stylesheet"]').each do |css|
         if css['href'] != nil
           @new_css_asset = Asset.create :snapshot_id => @snapshot.id, :src_type => 'css', :full_url => create_full_url(@site.url, css['href'])
-          css['href'] = @new_css_asset.local_path[1..-1]
+          if @new_css_asset.local_path != nil
+            css['href'] = @new_css_asset.local_path[1..-1]
+          end
         end
       end
 
@@ -184,7 +195,9 @@ class SnapshotsController < ApplicationController
       @doc.xpath('//script[@type="text/javascript"]').each do |js|
         if js['src'] != nil
           @new_js_asset = Asset.create :snapshot_id => @snapshot.id, :src_type => 'js', :full_url => create_full_url(@site.url, js['src'])
-          js['src'] = @new_css_asset.local_path[1..-1]
+          if @new_css_asset.local_path != nil
+            js['src'] = @new_css_asset.local_path[1..-1]
+          end
         end
       end
 
@@ -222,6 +235,13 @@ class SnapshotsController < ApplicationController
         full_uri = uri.scheme + file_uri
       end
 
-      full_uri
+      # Ensure the full URL matches a fully qualified URL format
+      parsed_full_uri = URI.parse(full_uri)
+      
+      if parsed_full_uri.kind_of?(URI::HTTP)
+        full_uri
+      else
+        nil
+      end
     end
 end

@@ -17,3 +17,4 @@
 public/uploads
 config/app_environment_variables.rb
 .sass-cache/
+.DS_Store
